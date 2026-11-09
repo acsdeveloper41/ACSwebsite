@@ -14,6 +14,7 @@ function Layout({ children }) {
     { to: "/Reviews", label: "Reviews" },
     { to: "/FAQ", label: "FAQ" },
     { to: "/Contact", label: "Contact" },
+    { to: "/careers", label: "Join Our Team" },
   ];
 
   return (
