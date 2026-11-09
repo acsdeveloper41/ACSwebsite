@@ -1,10 +1,12 @@
 // src/layout.jsx
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { User } from "lucide-react"; // Login icon
+import { ChevronDown, User } from "lucide-react";
 
 function Layout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopCareersOpen, setDesktopCareersOpen] = useState(false);
+  const [mobileCareersOpen, setMobileCareersOpen] = useState(false);
 
   const navItems = [
     { to: "/", label: "Home", end: true },
@@ -14,7 +16,6 @@ function Layout({ children }) {
     { to: "/Reviews", label: "Reviews" },
     { to: "/FAQ", label: "FAQ" },
     { to: "/Contact", label: "Contact" },
-    { to: "/careers", label: "Join Our Team" },
   ];
 
   return (
@@ -55,6 +56,30 @@ function Layout({ children }) {
 
           {/* DESKTOP RIGHT SIDE */}
           <div className="hidden md:flex items-center gap-3">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setDesktopCareersOpen((open) => !open)}
+                aria-label="Open careers menu"
+                aria-expanded={desktopCareersOpen}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-sky-200
+                  text-sky-700 hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-300"
+              >
+                <ChevronDown className="h-4 w-4" aria-hidden="true" />
+              </button>
+              {desktopCareersOpen && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-44 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
+                  <NavLink
+                    to="/careers"
+                    onClick={() => setDesktopCareersOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-sm font-semibold text-sky-900 hover:bg-sky-50"
+                  >
+                    Join Our Team
+                  </NavLink>
+                </div>
+              )}
+            </div>
+
             {/* Coach login icon */}
             <a
               href="https://app.apechampsswim.com.sg/welcome"
@@ -118,22 +143,45 @@ function Layout({ children }) {
                 </NavLink>
               ))}
 
-              {/* NEW — Coach login icon for mobile */}
-              <a
-                href="https://app.apechampsswim.com.sg/welcome"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 py-1 text-sky-900"
-              >
-                <div
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border
-                             border-sky-300 text-sky-700"
-                >
-                  <User className="h-4 w-4" />
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setMobileCareersOpen((open) => !open)}
+                    aria-label="Open careers menu"
+                    aria-expanded={mobileCareersOpen}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-sky-300
+                      text-sky-700 hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-300"
+                  >
+                    <ChevronDown className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                  {/* Coach login icon for mobile */}
+                  <a
+                    href="https://app.apechampsswim.com.sg/welcome"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 py-1 text-sky-900"
+                  >
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-sky-300 text-sky-700">
+                      <User className="h-4 w-4" />
+                    </span>
+                    <span className="font-medium">Attendance Login</span>
+                  </a>
                 </div>
-                <span className="text-sky-900 font-medium">Attendance Login</span>
-              </a>
+                {mobileCareersOpen && (
+                  <NavLink
+                    to="/careers"
+                    onClick={() => {
+                      setMobileCareersOpen(false);
+                      setMobileOpen(false);
+                    }}
+                    className="ml-10 font-semibold text-sky-900 hover:text-sky-700"
+                  >
+                    Join Our Team
+                  </NavLink>
+                )}
+              </div>
 
               {/* Mobile CTA */}
               <NavLink
